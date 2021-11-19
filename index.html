@@ -88,20 +88,107 @@
   </main>
 
   <script>
+    // Custom error class
+    class NumberError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = "NumberError";
+      }
+    }
+
+
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
       e.preventDefault();
       let output = document.querySelector('output');
-      let firstNum = document.querySelector('#first-num').value;
-      let secondNum = document.querySelector('#second-num').value;
+      let firstNum, secondNum;
+      // Try, catch for checking if the first input is a number. (Part 3)
+      try {
+        firstNum = document.querySelector('#first-num').value;
+        if(isNaN(firstNum))
+          throw new SyntaxError("The first input isn't a number!");
+      }
+      catch (err) {
+        console.log(err.name + ": " + err.message);
+      }
+      // Try, catch with custom error for the second input. (Part 4)
+      try {
+        secondNum = document.querySelector('#second-num').value;
+        if(isNaN(secondNum))
+          throw new NumberError("The second input isn't a number!");
+      }
+      catch (err) {
+        console.log(err.name + ": " + err.message);
+      }
       let operator = document.querySelector('#operator').value;
       output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
 
-    // Start your code here
-    // You may move this JS to another file if you wish
+    // Initialize all the console buttons. (Part 2)
+    let log = errorBtns[0];
+    let error = errorBtns[1];
+    let count = errorBtns[2];
+    let warn = errorBtns[3];
+    let assert = errorBtns[4];
+    let clear = errorBtns[5];
+    let dir = errorBtns[6];
+    let dirxml = errorBtns[7];
+    let groupStart = errorBtns[8];
+    let groupEnd = errorBtns[9];
+    let table = errorBtns[10];
+    let timerStart = errorBtns[11];
+    let timerEnd = errorBtns[12];
+    let trace = errorBtns[13];
+    let trigger = errorBtns[14];
+
+    // Event listeners for all the console buttons. (Part 2)
+    log.addEventListener('click', e => { console.log("Ah, you're back again?"); });
+    error.addEventListener('click', e => { console.error("This code is nice. Shame if something happened to it."); });
+    count.addEventListener('click', e => { console.count("Number of times you checked the console"); });
+    warn.addEventListener('click', e => { console.warn("Might wanna check this out in your free time."); });
+    assert.addEventListener('click', e => { 
+      const x = 3;
+      const y = 5;
+      const reason = "3 is less than 5, not more than 5.";
+      console.assert(3 > 5, {x, y, reason}); 
+    });
+    clear.addEventListener('click', e => { console.clear(); });
+    dir.addEventListener('click', e => { console.dir(dir); });
+    dirxml.addEventListener('click', e => { console.dirxml(dirxml); });
+    groupStart.addEventListener('click', e => { console.group("What was tested in this session"); });
+    groupEnd.addEventListener('click', e => { console.groupEnd("What was tested in this session"); });
+    table.addEventListener('click', e => { 
+      console.table([
+        {
+          element: "HTML",
+          timeSpent: "20 min",
+          difficulty: "Simple"
+        },
+        {
+          element: "CSS",
+          timeSpent: "40 min",
+          difficulty: "Somewhat easy"
+        },
+        {
+          element: "JS",
+          timeSpent: "353 min",
+          difficulty: "H E L P"
+        }
+      ]); 
+    });
+    timerStart.addEventListener('click', e => { console.time("Time spent until you fixed that error"); });
+    timerEnd.addEventListener('click', e => { console.timeEnd("Time spent until you fixed that error"); });
+    trace.addEventListener('click', e => { 
+      const firstFunction = () => { secondFunc(); };
+      const secondFunc = () => { thirdFunc(); };
+      const thirdFunc = () => { funcYouAreTesting(); };
+      const funcYouAreTesting = () => { console.trace("The trace for all your problems.")}; 
+      firstFunction();
+    });
+    // Adding the global event trigger. (Part 5)
+    trigger.addEventListener('click', e => {});
   </script>
 </body>
 
